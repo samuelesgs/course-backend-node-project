@@ -1,12 +1,12 @@
+const { log } = require('util');
 const Category = require('../models/category')
-const {create} = require('../models/user')
+const storage = require('../utils/cloud_storage');
 
 module.exports = {
     async create(req, res, next) {
         try{
+            console.log('category', req.body);
             const category = JSON.parse(req.body.category);
-            console.log('category', category);
-            const data = await Category.create(category);
 
             const files = req.files;
 
@@ -17,6 +17,7 @@ module.exports = {
                     category.image = url;
                 }
             }
+            const data = await Category.create(category);
 
             return res.status(201).json({
                 success : true,
@@ -32,6 +33,21 @@ module.exports = {
                 message : 'Hubo un error al crear la categoria',
                 error : error
             })
+        }
+    },
+
+    async getAll(req, res, next) {
+        try{
+            const data = await Category.getAll()
+            console.log("DATA ",data);
+            return res.status(201).json(data);
+        } catch(error) {
+            console.log(error);
+            return res.status(501).json({
+                success : false,
+                message : 'Hubo un error al crear la categoria',
+                error : error
+            });
         }
     }
 }

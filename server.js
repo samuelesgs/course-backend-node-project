@@ -42,12 +42,11 @@ require('./config/passport')(passport);
 users(app, upload);
 categories(app, upload);
 
-server.listen(3000, '192.168.100.11' || 'localhost', function() {
+server.listen(3000, '192.168.100.32' || 'localhost', function() {
     console.log('Aplicacion de node js ' +port+ ' iniciada...');
 });
 
 app.use((err, req, res, next) => {
-    console.log(err);
     res.status(err.status || 500).send(err.stack);
 });
 
