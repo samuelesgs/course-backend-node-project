@@ -1,4 +1,3 @@
-const { log } = require('util');
 const Category = require('../models/category')
 const storage = require('../utils/cloud_storage');
 
