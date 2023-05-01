@@ -23,6 +23,7 @@ const upload = multer({
 
 const users = require('./routes/usersRoutes');
 const categories = require('./routes/categoriesRoutes')
+const products = require('./routes/productsRoutes')
 
 const port = process.env.PORT || 3000;
 app.use(logger('dev'))
@@ -41,6 +42,7 @@ require('./config/passport')(passport);
 // llamando a las rutas
 users(app, upload);
 categories(app, upload);
+products(app, upload);
 
 server.listen(3000, '192.168.100.32' || 'localhost', function() {
     console.log('Aplicacion de node js ' +port+ ' iniciada...');
