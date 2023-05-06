@@ -58,7 +58,7 @@ CREATE TABLE products(
 	updated_at TIMESTAMP(0) NOT NULL,
 	FOREIGN KEY(id_category) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
-
+/*
 INSERT INTO users(
 	email,
 	name,
@@ -72,7 +72,7 @@ INSERT INTO users(
 	'samuel',
 	'guerrero',
 	'3231291876',
-	'123456',
+	'12345678',
 	'2021-05-19',
 	'2021-05-19'
 );
@@ -103,3 +103,7 @@ INSERT INTO roles(
 	'2023-10-10',
 	'2023-10-10'
 	);
+INSERT INTO user_has_roles(
+	id_user, id_rol, created_at, updated_at)
+	VALUES (1, 1, '2023-05-05', '2023-05-05');
+*/
