@@ -22,8 +22,9 @@ const upload = multer({
 */
 
 const users = require('./routes/usersRoutes');
-const categories = require('./routes/categoriesRoutes')
-const products = require('./routes/productsRoutes')
+const categories = require('./routes/categoriesRoutes');
+const products = require('./routes/productsRoutes');
+const address = require('./routes/addressRoutes');
 
 const port = process.env.PORT || 3000;
 app.use(logger('dev'))
@@ -42,6 +43,7 @@ require('./config/passport')(passport);
 // llamando a las rutas
 users(app, upload);
 categories(app, upload);
+address(app);
 products(app, upload);
 
 server.listen(3000, '192.168.100.13' || 'localhost', function() {

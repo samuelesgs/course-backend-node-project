@@ -2,12 +2,18 @@ const db = require('../config/config');
 
 const Address = {}
 
+Address.findByUser = (id_user) => {
+    const sql = `SELECT id, id_user, address, neighborhood, lat, lng, created_at, updated_at
+	FROM address WHERE id_user = $1;`;
+    return db.manyOrNone(sql, id_user);
+}
+
 Address.create = (address) => {
     const sql = `
         INSERT INTO address(
             id_user,
             address,
-            neighbordhood,
+            neighborhood,
             lat,
             lng,
             created_at,
@@ -17,12 +23,12 @@ Address.create = (address) => {
     return db.oneOrNone(sql, [
         address.id_user,
         address.address,
-        address.neighbordhood,
+        address.neighborhood,
         address.lat,
         address.lng,
         new Date(),
         new Date()
-    ]);
+    ])
 }
 
 module.exports = Address;
