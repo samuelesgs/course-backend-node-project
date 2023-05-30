@@ -31,13 +31,13 @@ module.exports = {
             });
         } else {
             try {
-
+                console.log(product);
                 const data = await Product.create(product);
                 product.id = data.id
 
                 const start = async() => {
                     await asyncForEach(files, async(file) => {
-                        const pathImage = `image_${Date.now}`;
+                        const pathImage = `image_${Date.now()}`;
                         const url = await storage(file, pathImage);
                         if (url !== undefined && url !== null) {
                             if (inserts == 0) { //IMAGE 1
