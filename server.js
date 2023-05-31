@@ -25,6 +25,8 @@ const users = require('./routes/usersRoutes');
 const categories = require('./routes/categoriesRoutes');
 const products = require('./routes/productsRoutes');
 const address = require('./routes/addressRoutes');
+const order = require('./routes/ordersRoutes');
+
 
 const port = process.env.PORT || 3000;
 app.use(logger('dev'))
@@ -45,6 +47,7 @@ users(app, upload);
 categories(app, upload);
 address(app);
 products(app, upload);
+order(app);
 
 server.listen(3000, '192.168.100.13' || 'localhost', function() {
     console.log('Aplicacion de node js ' +port+ ' iniciada...');
