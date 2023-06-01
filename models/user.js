@@ -34,6 +34,18 @@ User.findByEmail = (email, callback) => {
     return db.oneOrNone(sql, email);
 }
 
+
+User.findByDeliveryMen = () => {
+    const sql  = `
+        SELECT u.id, u.email, u.name, u.lastname, u.image, u.phone, u.password, u.session_token
+        FROM users AS u 
+        INNER JOIN user_has_roles AS uhr ON uhr.id_user = u.id
+        INNER JOIN roles AS r ON r.id = uhr.id_rol
+        WHERE r.id = 3
+        `;
+    return db.manyOrNone(sql);
+}
+
 User.create = async (user) => {
     const hash = await bcrypt.hash(user.password, 10);
     const sql = `

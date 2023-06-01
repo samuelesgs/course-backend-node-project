@@ -18,6 +18,19 @@ module.exports = {
         }
     },
 
+    async findByDeliveryMen(req, res, next) {
+        try {
+            const data = await User.findByDeliveryMen();
+            return res.status(201).json(data);
+        } catch (error) {
+            console.log(`error ${error}`);
+            return res.status(501).json({
+                success : false,
+                message : error
+            });
+        }
+    },
+
     async register(req, res, next) {
         try {
             const user = req.body;

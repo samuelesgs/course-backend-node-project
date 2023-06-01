@@ -51,7 +51,7 @@ Order.findByStatus = (status) => {
 	INNER JOIN address AS a ON a.id = o.id_address 
 	INNER JOIN order_has_products AS ohp ON ohp.id_order = o.id
 	INNER JOIN products as p ON p.id = ohp.id_product
-	WHERE status = $2
+	WHERE o.status = $1
 	GROUP BY o.id, u.id, a.id
 	ORDER BY o.timestamp DESC`;
     return db.manyOrNone(sql, status)

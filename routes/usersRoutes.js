@@ -4,6 +4,7 @@ const passport = require('passport')
 
 module.exports = (app, upload) => {
     app.get('/api/users/getAll', UsersControllers.getAll);
+    app.get('/api/users/findDeliveryMen', UsersControllers.findByDeliveryMen);
 
     app.post('/api/users/create' , UsersControllers.register);
     app.post('/api/users/login' , UsersControllers.login);
