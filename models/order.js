@@ -6,7 +6,7 @@ Order.findByClientAndStatus = (id_client, status) => {
     const sql = `SELECT 
 	o.id, o.id_client, o.id_delivery, o.id_address, o.lat, o.lng, o.status, o.timestamp, o.created_at, o.updated_at, 
 	JSON_BUILD_OBJECT('u.id', u.id,'name', u.name,'lastname', u.lastname,'image', u.image) as client, 
-	JSON_BUILD_OBJECT('id', a.id,'address', a.address,'neighborhood', a.neighborhood,'lat', a.lat,'lng', a.lng) as address,
+	JSON_BUILD_OBJECT('id', a.id,'address', a.address,'neighborhood', a.neighborhood,'lat', a.lat,'lng', a.lng) as json_address,
 	JSON_AGG(JSON_BUILD_OBJECT(
 		'id', p.id,
 		'name', p.name,
@@ -34,7 +34,7 @@ Order.findByStatus = (status) => {
     const sql = `SELECT 
 	o.id, o.id_client, o.id_delivery, o.id_address, o.lat, o.lng, o.status, o.timestamp, o.created_at, o.updated_at, 
 	JSON_BUILD_OBJECT('u.id', u.id,'name', u.name,'lastname', u.lastname,'image', u.image) as client, 
-	JSON_BUILD_OBJECT('id', a.id,'address', a.address,'neighborhood', a.neighborhood,'lat', a.lat,'lng', a.lng) as address,
+	JSON_BUILD_OBJECT('id', a.id,'address', a.address,'neighborhood', a.neighborhood,'lat', a.lat,'lng', a.lng) as json_address,
 	JSON_AGG(JSON_BUILD_OBJECT(
 		'id', p.id,
 		'name', p.name,
