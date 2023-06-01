@@ -1,5 +1,6 @@
 const Order = require('../models/order');
 const OrderHasProducts = require('../models/order_has_products');
+const timeRelative = require('../utils/time_relative');
 
 module.exports = {
 
@@ -9,6 +10,11 @@ module.exports = {
             const id_client = req.params.id_client;
             console.log(status);
             const data = await Order.findByClientAndStatus(id_client, status);
+
+            data.forEach(d => {
+                d.timestamp = timeRelative(new Date().getTime(), d.timestamp);
+            });
+            console.log(data);
             return res.status(201).json(data);
         } catch (error) {
             console.log(`Error ${error}`);
@@ -25,6 +31,10 @@ module.exports = {
             const status = req.params.status;
             console.log(status);
             const data = await Order.findByStatus(status);
+
+            data.forEach(d => {
+                d.timestamp = timeRelative(new Date().getTime(), d.timestamp);
+            });
             console.log(`Status ${JSON.stringify(data)}`);
             return res.status(201).json(data);
         } catch (error) {

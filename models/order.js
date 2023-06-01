@@ -23,7 +23,8 @@ Order.findByClientAndStatus = (id_client, status) => {
 	INNER JOIN order_has_products AS ohp ON ohp.id_order = o.id
 	INNER JOIN products as p ON p.id = ohp.id_product
 	WHERE id_client = $1 AND status = $2
-	GROUP BY o.id, u.id, a.id`;
+	GROUP BY o.id, u.id, a.id
+	ORDER BY o.timestamp DESC`;
     return db.manyOrNone(sql, [
         id_client, 
         status
@@ -51,7 +52,8 @@ Order.findByStatus = (status) => {
 	INNER JOIN order_has_products AS ohp ON ohp.id_order = o.id
 	INNER JOIN products as p ON p.id = ohp.id_product
 	WHERE status = $2
-	GROUP BY o.id, u.id, a.id`;
+	GROUP BY o.id, u.id, a.id
+	ORDER BY o.timestamp DESC`;
     return db.manyOrNone(sql, status)
 }
 
