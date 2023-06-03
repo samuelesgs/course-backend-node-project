@@ -8,8 +8,28 @@ module.exports = {
         try {
             const status = req.params.status;
             const id_client = req.params.id_client;
-            console.log(status);
             const data = await Order.findByClientAndStatus(id_client, status);
+
+            data.forEach(d => {
+                d.timestamp = timeRelative(new Date().getTime(), d.timestamp);
+            });
+            console.log(data);
+            return res.status(201).json(data);
+        } catch (error) {
+            console.log(`Error ${error}`);
+            return res.status(501).json({
+                message : 'Hubo un error al tratar de obtener las direcciones',
+                error: error,
+                success: false
+            });
+        }
+    },
+
+    async findByDeliveryAndStatus(req, res, next) {
+        try {
+            const status = req.params.status;
+            const id_delivery = req.params.id_delivery;
+            const data = await Order.findByDeliveryAndStatus(id_delivery, status);
 
             data.forEach(d => {
                 d.timestamp = timeRelative(new Date().getTime(), d.timestamp);
@@ -35,7 +55,6 @@ module.exports = {
             data.forEach(d => {
                 d.timestamp = timeRelative(new Date().getTime(), d.timestamp);
             });
-            console.log(`Status ${JSON.stringify(data)}`);
             return res.status(201).json(data);
         } catch (error) {
             console.log(`Error ${error}`);
@@ -50,7 +69,7 @@ module.exports = {
     async create(req, res, next) {
         try {
             const order = req.body;
-            console.log("ORDER",order);
+            order.status = 'PAGADO';
             const data = await Order.create(order);
 
             for(const product of order.products) {
@@ -70,6 +89,67 @@ module.exports = {
             return res.status(501).json({
                 success : false,
                 message : 'Hubo un error creando la orden',
+                error : error
+            });
+        }
+    },
+    async updateToDispatched(req, res, next) {
+        try {
+            const order = req.body.order;
+            order.status = "DESPACHADO";
+            console.log(order);
+             await Order.update(order);
+
+            return res.status(201).json({
+                success : true,
+                message : 'La orden se actualizo correctamente'
+            });
+
+        } catch(error) {
+            console.log(`Error ${error}`);
+            return res.status(501).json({
+                success : false,
+                message : 'Hubo un error al actualizar la orden',
+                error : error
+            });
+        }
+    },
+    async updateToOnTheWay(req, res, next) {
+        try {
+            const order = req.body;
+            order.status = "EN CAMINO";
+             await Order.update(order);
+
+            return res.status(201).json({
+                success : true,
+                message : 'La orden se actualizo correctamente'
+            });
+
+        } catch(error) {
+            console.log(`Error ${error}`);
+            return res.status(501).json({
+                success : false,
+                message : 'Hubo un error al actualizar la orden',
+                error : error
+            });
+        }
+    },
+    async updateToDelivered(req, res, next) {
+        try {
+            const order = req.body;
+            order.status = "ENTREGADO";
+             await Order.update(order);
+
+            return res.status(201).json({
+                success : true,
+                message : 'La orden se actualizo correctamente'
+            });
+
+        } catch(error) {
+            console.log(`Error ${error}`);
+            return res.status(501).json({
+                success : false,
+                message : 'Hubo un error al actualizar la orden',
                 error : error
             });
         }
