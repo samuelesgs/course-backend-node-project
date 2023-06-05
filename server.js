@@ -5,9 +5,11 @@ const server = http.createServer(app);
 const logger = require('morgan');
 const cors = require('cors');
 const passport = require('passport');
-const multer = require('multer')
-const serviceAccount = require('./serviceAccountKey.json')
-const admin = require('firebase-admin')
+const multer = require('multer');
+const serviceAccount = require('./serviceAccountKey.json');
+const admin = require('firebase-admin');
+const io = require('socket.io')(server);
+const ordersDeliverySocket = require('./sockets/orders_delivery_sockets');
 
 admin.initializeApp({
     credential : admin.credential.cert(serviceAccount)
@@ -26,6 +28,9 @@ const categories = require('./routes/categoriesRoutes');
 const products = require('./routes/productsRoutes');
 const address = require('./routes/addressRoutes');
 const order = require('./routes/ordersRoutes');
+/*
+    Llamamos a los sockets
+*/
 
 
 const port = process.env.PORT || 3000;
@@ -48,6 +53,7 @@ categories(app, upload);
 address(app);
 products(app, upload);
 order(app);
+ordersDeliverySocket(io);
 
 server.listen(3000, '192.168.100.13' || 'localhost', function() {
     console.log('Aplicacion de node js ' +port+ ' iniciada...');
