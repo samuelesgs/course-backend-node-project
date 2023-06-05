@@ -134,6 +134,26 @@ module.exports = {
             });
         }
     },
+    
+    async updateLatLng(req, res, next) {
+        try {
+            const order = req.body;
+            await Order.updateLatLng(order);
+
+            return res.status(201).json({
+                success : true,
+                message : 'La orden se actualizo correctamente'
+            });
+
+        } catch(error) {
+            console.log(`Error ${error}`);
+            return res.status(501).json({
+                success : false,
+                message : 'Hubo un error al actualizar la orden',
+                error : error
+            });
+        }
+    },
     async updateToDelivered(req, res, next) {
         try {
             const order = req.body;
